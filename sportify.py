@@ -20,7 +20,7 @@ class Sportify(gym.Env):
 # Different actions Home(0) and bet size (20 40 60 80 100)
         
         self.action_space = spaces.Tuple([spaces.Discrete(3), spaces.Discrete(5)])
-        self.observation_space = spaces.Box(len(features_name+1))# Features + Odds 
+        self.observation_space = spaces.Box(len(xtrain.columns)-1)# Features + Odds 
         self.odds=1.05
         self.seed()
         self.training=training
@@ -44,14 +44,14 @@ class Sportify(gym.Env):
             self.outcome=self.df_train[self.df_train['match_id']==self.match_id]['A Winner'].iloc[0]
             dfobs=self.df_train[(self.df_train['match_id']==self.match_id)&(self.df_train['minutes']==self.minutes)]
             dfobs['Odds']=self.odds
-            self.observation=dfobs[self.features].drop('A Winner',axis=1)
+            self.observation=dfobs[self.features].drop(['A Winner','match_id'],axis=1)
             
         else:
             self.match_id=sample(test_id,1)[0]
             self.outcome=self.df_test[self.df_test['match_id']==self.match_id]['A Winner'].iloc[0]
             dfobs=self.df_test[(self.df_test['match_id']==self.match_id)&(self.df_test['minutes']==self.minutes)]
             dfobs['Odds']=self.odds
-            self.observation=dfobs[self.features].drop('A Winner',axis=1)
+            self.observation=dfobs[self.features].drop(['A Winner','match_id'],axis=1)
         # extract the sample from file (training or testing)
         # etract outcome
     
