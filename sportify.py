@@ -5,7 +5,8 @@ Created on Sun Sep  1 14:49:57 2019
 @author: Jojo
 """
 
-import gym
+import 
+import numpy as np
 
 from gym import spaces
 
@@ -83,7 +84,6 @@ class Sportify(gym.Env):
                     return self._get_obs(), -20*(action[1]+1), False, {}
                 else:
                     return self._get_obs(), 20*(action[1]+1)*(1/(self.odds-1)), False, {}                                
-        
+ 
     def reset(self):
-
-        return self._get_obs()
+       return self._get_obs()
