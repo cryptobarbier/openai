@@ -35,7 +35,7 @@ class Sportify(gym.Env):
 
     
     # Initialize Odds, minutes and match id and fetch cash
-    def _get_obs():
+    def _get_obs(self):
 
         self.odds=1/(np.randomint(1,99)/100)
         self.minutes=np.randomint(10,90)
@@ -86,4 +86,4 @@ class Sportify(gym.Env):
         
     def reset(self):
 
-    return self._get_obs()
+        return self._get_obs()
