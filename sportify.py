@@ -84,6 +84,6 @@ class Sportify(gym.Env):
                 else:
                     return self._get_obs(), 20*(action[1]+1)*(1/(self.odds-1)), False, {}                                
         
-        def reset(self):
+    def reset(self):
 
-        return self._get_obs()
+    return self._get_obs()
