@@ -15,7 +15,7 @@ from random import sample
 # read_csv with all the training set
 
 class Sportify(gym.Env):
-    def __init__(self, xtrain,xtest,training,train_id,test_id)
+    def __init__(self, xtrain,xtest,training,train_id,test_id):
 
 # Different actions Home(0) and bet size (20 40 60 80 100)
         
@@ -41,17 +41,17 @@ class Sportify(gym.Env):
         self.minutes=np.randomint(10,90)
         if training==1:
             self.match_id=sample(train_id,1)[0]
-            self.outcome=self.df_train[self.df_train['Match_id']==self.match_id]['AWinner'].iloc[0]
-            dfobs=self.df_train[(self.df_train['Match_id']==self.match_id)&(self.df_train['minutes']==self.minutes)]
+            self.outcome=self.df_train[self.df_train['match_id']==self.match_id]['A Winner'].iloc[0]
+            dfobs=self.df_train[(self.df_train['match_id']==self.match_id)&(self.df_train['minutes']==self.minutes)]
             dfobs['Odds']=self.odds
-            self.observation=dfobs[self.features].drop('Awinner',axis=1)
+            self.observation=dfobs[self.features].drop('A Winner',axis=1)
             
         else:
             self.match_id=sample(test_id,1)[0]
-            self.outcome=self.df_test[self.df_test['Match_id']==self.match_id]['AWinner'].iloc[0]
-            dfobs=self.df_test[(self.df_test['Match_id']==self.match_id)&(self.df_test['minutes']==self.minutes)]
+            self.outcome=self.df_test[self.df_test['match_id']==self.match_id]['A Winner'].iloc[0]
+            dfobs=self.df_test[(self.df_test['match_id']==self.match_id)&(self.df_test['minutes']==self.minutes)]
             dfobs['Odds']=self.odds
-            self.observation=dfobs[self.features].drop('Awinner',axis=1)
+            self.observation=dfobs[self.features].drop('A Winner',axis=1)
         # extract the sample from file (training or testing)
         # etract outcome
     
