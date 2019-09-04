@@ -37,8 +37,8 @@ class Sportify(gym.Env):
     # Initialize Odds, minutes and match id and fetch cash
     def _get_obs(self):
 
-        self.odds=1/(np.randint(1,99)/100)
-        self.minutes=np.randint(10,90)
+        self.odds=1/(self.np_random.randint(1,99)/100)
+        self.minutes=self.np_random.randint(10,90)
         if self.training==1:
             self.match_id=sample(self.train_id,1)[0]
             self.outcome=self.df_train[self.df_train['match_id']==self.match_id]['A Winner'].iloc[0]
