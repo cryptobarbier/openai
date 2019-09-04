@@ -19,7 +19,7 @@ class Sportify(gym.Env):
 
 # Different actions Home(0) and bet size (20 40 60 80 100)
         
-        self.action_space = spaces.Tuple([spaces.Discrete(3), spaces.Discrete(5)])
+        self.action_space = spaces.Discrete(11)
         self.observation_space = spaces.Box(low=float(-1000.0),high=float(90.0),shape=(len(xtrain.columns)-1,),dtype=np.float32)# Features + Odds 
         self.odds=1.05
         self.seed()
@@ -65,28 +65,19 @@ class Sportify(gym.Env):
     
             assert self.action_space.contains(action)
             
-    
-            if action[0] == 0: # We Do no bet
-    
-                # observation, reward, done, info
-    
-                return self._get_obs(), 0, False, {}
-            
-            if action[0]==1: # We buy
+            acti=(action-5)*20
+                        
+            if acti>=0: # We buy
                 if self.outcome==1:
-                    return self._get_obs(), 20*(action[1]+1)*(self.odds-1), False, {}
+                    return self._get_obs(), acti*(self.odds-1), False, {}
                 else:
-                    return self._get_obs(), -20*(action[1]+1), False, {}
+                    return self._get_obs(), -acti, False, {}
             else:
-                gg=1
 
-            if action[0]==2: # We sell
                 if self.outcome==1:
-                    return self._get_obs(), -20*(action[1]+1), False, {}
+                    return self._get_obs(),-acti, False, {}
                 else:
-                    return self._get_obs(), 20*(action[1]+1)*(1/(self.odds-1)), False, {}          
-            else:
-                gg=1
+                    return self._get_obs(), acti*(1/(self.odds-1)), False, {}          
                       
     def reset(self):
         return self._get_obs()
