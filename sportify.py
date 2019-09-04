@@ -40,14 +40,14 @@ class Sportify(gym.Env):
         self.odds=1/(self.np_random.randint(1,99)/100)
         self.minutes=self.np_random.randint(10,90)
         if self.training==1:
-            self.match_id=sample(self.train_id,1)[0]
+            self.match_id=sample(self.train_id,1)
             self.outcome=self.df_train[self.df_train['match_id']==self.match_id]['A Winner'].iloc[0]
             dfobs=self.df_train[(self.df_train['match_id']==self.match_id)&(self.df_train['minutes']==self.minutes)]
             dfobs['Odds']=self.odds
             self.observation=dfobs[self.features].drop(['A Winner','match_id'],axis=1)
             
         else:
-            self.match_id=sample(self.test_id,1)[0]
+            self.match_id=sample(self.test_id,1)
             self.outcome=self.df_test[self.df_test['match_id']==self.match_id]['A Winner'].iloc[0]
             dfobs=self.df_test[(self.df_test['match_id']==self.match_id)&(self.df_test['minutes']==self.minutes)]
             dfobs['Odds']=self.odds
