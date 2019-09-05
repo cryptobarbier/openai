@@ -22,7 +22,7 @@ class Sportify(gym.Env):
         #print(len(xtrain.columns)-1)
         
         self.action_space = spaces.Discrete(11)
-        self.observation_space = spaces.Box(low=float(-1000.0),high=float(90.0),dtype=np.float32)# Features + Odds 
+        self.observation_space = spaces.Box(low=np.ones(51)*float(-1000.0),high=np.ones(51)*float(1000),dtype=np.float32)# Features + Odds 
         self.odds=1.05
         self.seed()
         self.training=training
