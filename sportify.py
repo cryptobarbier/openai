@@ -49,7 +49,6 @@ class Sportify(gym.Env):
             dfobs['Odds']=self.odds
             dfobs=dfobs[(dfobs['match_id']==self.match_id)&(dfobs['minutes']==self.minutes)]
             self.observation=dfobs.drop(['A Winner','match_id'],axis=1)
-            print(self.observation)
             
         else:
             self.match_id=sample(self.test_id,1)[0]
@@ -58,7 +57,7 @@ class Sportify(gym.Env):
             dfobs['Odds']=self.odds
             dfobs=dfobs[(dfobs['match_id']==self.match_id)&(dfobs['minutes']==self.minutes)]
             self.observation=dfobs.drop(['A Winner','match_id'],axis=1)
-        return self.observation# extract the sample from file (training or testing)
+        return np.array (self.observation)# extract the sample from file (training or testing)
         # etract outcome
     
     def seed(self, seed=None):
