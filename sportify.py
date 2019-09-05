@@ -22,7 +22,7 @@ class Sportify(gym.Env):
         #print(len(xtrain.columns)-1)
         
         self.action_space = spaces.Discrete(11)
-        self.observation_space = spaces.Box(low=float(-1000.0),high=float(90.0),shape=(51,),dtype=np.float32)# Features + Odds 
+        self.observation_space = spaces.Box(low=float(-1000.0),high=float(90.0),shape=(1,1,51),dtype=np.float32)# Features + Odds 
         self.odds=1.05
         self.seed()
         self.training=training
@@ -57,7 +57,7 @@ class Sportify(gym.Env):
             dfobs['Odds']=self.odds
             dfobs=dfobs[(dfobs['match_id']==self.match_id)&(dfobs['minutes']==self.minutes)]
             self.observation=dfobs.drop(['A Winner','match_id'],axis=1)
-        return np.array (self.observation).reshape(1,51)# extract the sample from file (training or testing)
+        return np.array (self.observation)# extract the sample from file (training or testing)
         # etract outcome
     
     def seed(self, seed=None):
