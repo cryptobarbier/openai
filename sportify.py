@@ -27,9 +27,9 @@ class Sportify(gym.Env):
         self.training=training
         self.outcome=0 # 0 Home not winner at end of match
         if training==1:
-            self.df=xtrain.sample(20000)
+            self.df=xtrain
         else:
-            self.df=xtest.sample(20000)
+            self.df=xtest
         self.features=[*xtrain.columns,'Odds']# remove the outcome
 
     
@@ -37,14 +37,12 @@ class Sportify(gym.Env):
     def _get_obs(self):
         #gc.disable()
         self.odds=1/(self.np_random.randint(1,99)/100)
-        sa=self.df.sample(1)
-        sa['Odds']=self.odds
-        #self.minutes=self.np_random.randint(10,90)
-        self.outcome=int(sa['A Winner'])
-        self.observation=sa.drop(['A Winner','match_id'],axis=1)
+        self.samp=self.df.sample(1)
+        self.outcome=int(self.samp['A Winner'])
+        self.samp=self.samp.drop(['A Winner','match_id'],axis=1)
         #del sa
         #gc.disable()
-        return np.array (self.observation).reshape(51)# extract the sample from file (training or testing)
+        return np.append(np.array(self.samp.reshape(51),self.odds))# extract the sample from file (training or testing)
         # etract outcome
     
     def seed(self, seed=None):
