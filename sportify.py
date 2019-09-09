@@ -31,7 +31,7 @@ class Sportify(gym.Env):
         else:
             self.df=xtest
         self.features=[*xtrain.columns,'Odds']# remove the outcome
-
+        self.odds=1.05
     
     # Initialize Odds, minutes and match id and fetch cash
     def _get_obs(self):
