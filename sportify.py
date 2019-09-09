@@ -39,7 +39,7 @@ class Sportify(gym.Env):
         self.odds=1/(self.np_random.randint(1,99)/100)
         self.samp=self.df.sample(1)
         self.outcome=int(self.samp['A Winner'])
-        print(self.odds)
+        #print(self.odds)
         self.obs=self.samp.drop(['A Winner','match_id'],axis=1)
         self.obs['Odds']=self.odds
         #del sa
