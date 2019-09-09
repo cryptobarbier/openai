@@ -24,20 +24,22 @@ class Sportify(gym.Env):
         self.action_space = spaces.Discrete(11)
         self.observation_space = spaces.Box(low=np.ones(51)*float(-1000.0),high=np.ones(51)*float(1000),dtype=np.float32)# Features + Odds 
         self.seed()
+        self.features=[*xtrain.columns,'Odds']# remove the outcome
+        self.odds=1.05
         self.training=training
         self.outcome=0 # 0 Home not winner at end of match
         if training==1:
             self.df=xtrain
         else:
             self.df=xtest
-        self.features=[*xtrain.columns,'Odds']# remove the outcome
-        self.odds=1.05
+
     
     # Initialize Odds, minutes and match id and fetch cash
     def _get_obs(self):
         self.odds=1/(self.np_random.randint(1,99)/100)
         self.samp=self.df.sample(1)
         self.outcome=int(self.samp['A Winner'])
+        print(self.odds)
         #del sa
         #gc.disable()
         #return np.ones(51)
