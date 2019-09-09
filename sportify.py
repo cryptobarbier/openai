@@ -6,6 +6,7 @@ Created on Sun Sep  1 14:49:57 2019
 """
 import gym 
 import numpy as np
+import gc
 
 from gym import spaces
 
@@ -38,7 +39,7 @@ class Sportify(gym.Env):
     
     # Initialize Odds, minutes and match id and fetch cash
     def _get_obs(self):
-
+        gc.disable()
         self.odds=1/(self.np_random.randint(1,99)/100)
         #self.minutes=self.np_random.randint(10,90)
         
