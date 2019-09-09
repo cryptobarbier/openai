@@ -45,7 +45,7 @@ class Sportify(gym.Env):
         #del sa
         #gc.disable()
         #return np.ones(51)
-        return np.array(self.obs).reshape(52)# extract the sample from file (training or testing)
+        return np.array(self.obs).reshape(51)# extract the sample from file (training or testing)
         # etract outcome
     
     def seed(self, seed=None):
