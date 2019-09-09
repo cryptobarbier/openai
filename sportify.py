@@ -41,7 +41,8 @@ class Sportify(gym.Env):
         self.outcome=int(self.samp['A Winner'])
         #del sa
         #gc.disable()
-        return np.append(np.array(self.samp.drop(['A Winner','match_id'],axis=1).reshape(51),self.odds))# extract the sample from file (training or testing)
+        return np.ones(51)
+        #return np.append(np.array(self.samp.drop(['A Winner','match_id'],axis=1).reshape(51),self.odds))# extract the sample from file (training or testing)
         # etract outcome
     
     def seed(self, seed=None):
