@@ -11,7 +11,6 @@ import numpy as np
 from gym import spaces
 
 from gym.utils import seeding
-from random import sample 
 
 # read_csv with all the training set
 
@@ -26,14 +25,11 @@ class Sportify(gym.Env):
         self.observation_space = spaces.Box(low=np.ones(51)*float(-1000.0),high=np.ones(51)*float(1000),dtype=np.float32)# Features + Odds 
         self.seed()
         self.training=training
-        self.minutes=10 # generated randomly between 10 and 90
         self.outcome=0 # 0 Home not winner at end of match
         if training==1:
             self.df=xtrain.sample(20000)
         else:
             self.df=xtest.sample(20000)
-        self.train_id=train_id
-        self.test_id=test_id
         self.features=[*xtrain.columns,'Odds']# remove the outcome
 
     
@@ -44,7 +40,7 @@ class Sportify(gym.Env):
         sa=self.df.sample(1)
         sa['Odds']=self.odds
         #self.minutes=self.np_random.randint(10,90)
-        self.outcome=sa['A Winner'].iloc[0]
+        self.outcome=int(sa['A Winner'])
         self.observation=sa.drop(['A Winner','match_id'],axis=1)
         del sa
         return np.array (self.observation).reshape(51)# extract the sample from file (training or testing)
