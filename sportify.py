@@ -6,7 +6,7 @@ Created on Sun Sep  1 14:49:57 2019
 """
 import gym 
 import numpy as np
-import gc
+#import gc
 
 from gym import spaces
 
@@ -39,15 +39,14 @@ class Sportify(gym.Env):
     
     # Initialize Odds, minutes and match id and fetch cash
     def _get_obs(self):
-        gc.disable()
+        #gc.disable()
         self.odds=1/(self.np_random.randint(1,99)/100)
         #self.minutes=self.np_random.randint(10,90)
         
         if self.training==1:
             self.match_id=sample(self.train_id,1)[0]
             self.outcome=self.df_train[self.df_train['match_id']==self.match_id]['A Winner'].iloc[0]
-            dfobs=self.df_train.fillna(0)
-            dfobs=dfobs[dfobs['match_id']==self.match_id]
+            dfobs=self.df_train[self.df_train['match_id']==self.match_id]
             self.minutes=sample(list(dfobs['minutes'].unique()),1)[0]
             dfobs['Odds']=self.odds
             dfobs=dfobs[dfobs['minutes']==self.minutes]
@@ -56,8 +55,7 @@ class Sportify(gym.Env):
         else:
             self.match_id=sample(self.test_id,1)[0]
             self.outcome=self.df_test[self.df_test['match_id']==self.match_id]['A Winner'].iloc[0]
-            dfobs=self.df_test.fillna(0)
-            dfobs=dfobs[dfobs['match_id']==self.match_id]
+            dfobs=self.df_test[self.df_test['match_id']==self.match_id]
             self.minutes=sample(list(dfobs['minutes'].unique()),1)[0]
             dfobs['Odds']=self.odds
             dfobs=dfobs[dfobs['minutes']==self.minutes]
