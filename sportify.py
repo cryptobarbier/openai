@@ -24,16 +24,14 @@ class Sportify(gym.Env):
         
         self.action_space = spaces.Discrete(11)
         self.observation_space = spaces.Box(low=np.ones(51)*float(-1000.0),high=np.ones(51)*float(1000),dtype=np.float32)# Features + Odds 
-        self.odds=1.05
         self.seed()
         self.training=training
         self.minutes=10 # generated randomly between 10 and 90
-        self.match_id=145000 # get piked up randomly from the match dataset
         self.outcome=0 # 0 Home not winner at end of match
         if training==1:
-            self.df=xtrain
+            self.df=xtrain.sample(20000)
         else:
-            self.df=xtest
+            self.df=xtest.sample(20000)
         self.train_id=train_id
         self.test_id=test_id
         self.features=[*xtrain.columns,'Odds']# remove the outcome
@@ -43,19 +41,12 @@ class Sportify(gym.Env):
     def _get_obs(self):
         #gc.disable()
         self.odds=1/(self.np_random.randint(1,99)/100)
+        sa=self.df.sample(1)
+        sa['Odds']=self.odds
         #self.minutes=self.np_random.randint(10,90)
-        
-        if self.training==1:
-            self.match_id=sample(self.train_id,1)[0]
-        else:
-            self.match_id=sample(self.test_id,1)[0]
-        self.outcome=self.df[self.df['match_id']==self.match_id]['A Winner'].iloc[0]
-        dfobs=self.df[self.df['match_id']==self.match_id]
-        self.minutes=sample(list(dfobs['minutes'].unique()),1)[0]
-        dfobs['Odds']=self.odds
-        dfobs=dfobs[dfobs['minutes']==self.minutes]
-        self.observation=dfobs.drop(['A Winner','match_id'],axis=1)
-        del dfobs
+        self.outcome=sa['A Winner'].iloc[0]
+        self.observation=sa.drop(['A Winner','match_id'],axis=1)
+        del sa
         return np.array (self.observation).reshape(51)# extract the sample from file (training or testing)
         # etract outcome
     
