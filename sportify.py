@@ -35,14 +35,13 @@ class Sportify(gym.Env):
     
     # Initialize Odds, minutes and match id and fetch cash
     def _get_obs(self):
-        #gc.disable()
-        #self.odds=1/(self.np_random.randint(1,99)/100)
-        #self.samp=self.df.sample(1)
-        #self.outcome=int(self.samp['A Winner'])
+        self.odds=1/(self.np_random.randint(1,99)/100)
+        self.samp=self.df.sample(1)
+        self.outcome=int(self.samp['A Winner'])
         #del sa
         #gc.disable()
-        return np.ones(51)
-        #return np.append(np.array(self.samp.drop(['A Winner','match_id'],axis=1).reshape(51),self.odds))# extract the sample from file (training or testing)
+        #return np.ones(51)
+        return np.append(np.array(self.samp.drop(['A Winner','match_id'],axis=1).reshape(51),self.odds))# extract the sample from file (training or testing)
         # etract outcome
     
     def seed(self, seed=None):
