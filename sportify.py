@@ -6,7 +6,7 @@ Created on Sun Sep  1 14:49:57 2019
 """
 import gym 
 import numpy as np
-#import gc
+import gc
 
 from gym import spaces
 
@@ -43,6 +43,7 @@ class Sportify(gym.Env):
         self.outcome=int(sa['A Winner'])
         self.observation=sa.drop(['A Winner','match_id'],axis=1)
         del sa
+        gc.disable()
         return np.array (self.observation).reshape(51)# extract the sample from file (training or testing)
         # etract outcome
     
