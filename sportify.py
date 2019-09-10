@@ -17,7 +17,7 @@ from gym.utils import seeding
 # Return random sample from dataframe
 def Sampy(df):  
   u=int(np.random.random_sample()*len(df))
-  return df.iloc[u]['A Winner']
+  return df.iloc[u]
 
 class Sportify(gym.Env):
     def __init__(self, xtrain,xtest,training,train_id,test_id):
