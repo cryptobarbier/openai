@@ -43,7 +43,7 @@ class Sportify(gym.Env):
     # Initialize Odds, minutes and match id and fetch cash
     def _get_obs(self):
         self.odds=1/np.random.random_sample()
-        self.outcome,self.obs=Sampy(self.df)
+        self.outcome,self.obs=Sampy(self.df,self.odds)
         #del sa
         #gc.disable()
         #return np.ones(51)
