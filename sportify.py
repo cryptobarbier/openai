@@ -45,7 +45,7 @@ class Sportify(gym.Env):
         self.samp=Sampy(self.df)
         self.outcome=int(self.samp['A Winner'])
         #print(self.odds)
-        self.obs=self.samp.drop(['A Winner','match_id'],axis=1)
+        self.obs=self.samp.drop(['A Winner','match_id'])
         self.obs['Odds']=self.odds
         #del sa
         #gc.disable()
