@@ -15,8 +15,8 @@ from gym.utils import seeding
 # read_csv with all the training set
 
 # Return random sample from dataframe
-def Sampy(df,np_random):
-  u=np_random.randint(0,len(df))
+def Sampy(df):
+  u=int(np.random.random_sample()*len(df))
   return df.iloc[u]
 
 class Sportify(gym.Env):
@@ -41,8 +41,8 @@ class Sportify(gym.Env):
     
     # Initialize Odds, minutes and match id and fetch cash
     def _get_obs(self):
-        self.odds=1/(self.np_random.randint(1,99)/100)
-        self.samp=Sampy(self.df,self.np_random)
+        self.odds=1/np.random.random_sample()
+        self.samp=Sampy(self.df)
         self.outcome=int(self.samp['A Winner'])
         #print(self.odds)
         self.obs=self.samp.drop(['A Winner','match_id'],axis=1)
