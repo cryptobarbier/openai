@@ -72,9 +72,9 @@ class Sportify(gym.Env):
             else:
 
                 if self.outcome==1:
-                    return self._get_obs(),-acti, False, {}
+                    return self._get_obs(),acti, False, {}
                 else:
-                    return self._get_obs(), acti*(1/(self.odds-1)), False, {}          
+                    return self._get_obs(), -acti*(1/(self.odds-1)), False, {}          
                       
     def reset(self):
         return self._get_obs()
