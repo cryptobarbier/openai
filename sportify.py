@@ -80,14 +80,12 @@ class Sportify(gym.Env):
         return self._get_obs()
     
 class Spo2(gym.Env):
-    def __init__(self, xtrain,xtest,training,env_test):
+    def __init__(self, xtrain,xtest,training):
 
 # Different actions Home(0) and bet size (20 40 60 80 100)
         
         #print(len(xtrain.columns)-1)
-        
-        self.leg=0
-        self.cash=400
+        self.cash=500
         self.action_space = spaces.Discrete(11)
         self.observation_space = spaces.Box(low=np.ones(51)*float(-1000.0),high=np.ones(51)*float(1000),dtype=np.float32)# Features + Odds 
         self.seed()
@@ -125,7 +123,6 @@ class Spo2(gym.Env):
             assert self.action_space.contains(action)
             
             acti=(action-5)*20
-            self.leg=self.leg+1
             
             if acti>=0: # We buy
                 if self.outcome==1:
@@ -138,16 +135,14 @@ class Spo2(gym.Env):
                 else:
                     rew=-acti*(1/(self.odds-1))
             # update cash
-            self.cash=self.cash+rew
+            self.cash=self.cash+min(0,rew)
             
             if self.cash<=0:
-                rew=-1000# extra penalty for losing your cash
+                        # extra penalty for losing your cash
                 done=True
             else:
-                if self.leg==100: # series of 100 bets
-                    done=True
-                else:
-                    done=False
+                done=False
+                
             return self._get_obs(), rew, done, {}          
                       
     def reset(self):
