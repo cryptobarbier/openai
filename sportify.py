@@ -147,3 +147,73 @@ class Spo2(gym.Env):
                       
     def reset(self):
         return self._get_obs()
+        
+# environement with continuous actions   used for tD     
+class Spo3(gym.Env):
+    def __init__(self, xtrain,xtest,training):
+
+# Different actions Home(0) and bet size (20 40 60 80 100)
+        
+        #print(len(xtrain.columns)-1)
+        self.cash=500
+        self.action_space = spaces.Box(low=-100,high=100,shape=(1,),np.float32)
+        self.observation_space = spaces.Box(low=np.ones(51)*float(-1000.0),high=np.ones(51)*float(1000),dtype=np.float32)# Features + Odds 
+        self.seed()
+        self.features=[*xtrain.columns,'Odds']# remove the outcome
+        self.odds=1.05
+        self.training=training
+        self.outcome=0 # 0 Home not winner at end of match
+        if training==1:
+            self.df=xtrain
+        else:
+            self.df=xtest
+
+    
+    # Initialize Odds, minutes and match id and fetch cash
+    def _get_obs(self):
+        self.odds=1/np.random.random_sample()
+        self.samp=Sampy(self.df)
+        self.outcome=int(self.samp['A Winner'])
+        self.obs=self.samp.drop(['A Winner','match_id'])
+        self.obs['Odds']=self.odds
+        #del sa
+        #gc.disable()
+        #return np.ones(51)
+        return np.array(self.obs).reshape(51)# extract the sample from file (training or testing)
+        # etract outcome
+    
+    def seed(self, seed=None):
+
+        self.np_random, seed = seeding.np_random(seed)
+
+        return [seed]
+    
+    def step(self, action):
+    
+            assert self.action_space.contains(action)
+            
+            acti=action
+            
+            if acti>=0: # We buy
+                if self.outcome==1:
+                    rew=acti*(self.odds-1)
+                else:
+                    rew=-acti
+            else:
+                if self.outcome==1:
+                    rew=acti
+                else:
+                    rew=-acti*(1/(self.odds-1))
+            # update cash
+            self.cash=self.cash+min(0,rew)
+            
+            if self.cash<=0:
+                        # extra penalty for losing your cash
+                done=True
+            else:
+                done=False
+                
+            return self._get_obs(), rew, done, {}          
+                      
+    def reset(self):
+        return self._get_obs()
