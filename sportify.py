@@ -156,7 +156,7 @@ class Spo3(gym.Env):
         
         #print(len(xtrain.columns)-1)
         self.cash=500
-        self.action_space = spaces.Box(low=-100,high=100,shape=(1,),np.float32)
+        self.action_space = spaces.Box(low=-100,high=100,shape=(1,),dtype=np.float32)
         self.observation_space = spaces.Box(low=np.ones(51)*float(-1000.0),high=np.ones(51)*float(1000),dtype=np.float32)# Features + Odds 
         self.seed()
         self.features=[*xtrain.columns,'Odds']# remove the outcome
