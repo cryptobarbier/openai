@@ -91,6 +91,7 @@ class Spo2(gym.Env):
         self.seed()
         self.features=[*xtrain.columns,'Odds']# remove the outcome
         self.odds=1.05
+        self.score=0
         self.training=training
         self.outcome=0 # 0 Home not winner at end of match
         if training==1:
@@ -101,9 +102,17 @@ class Spo2(gym.Env):
     
     # Initialize Odds, minutes and match id and fetch cash
     def _get_obs(self):
-        self.odds=1/np.random.random_sample()
         self.samp=Sampy(self.df)
         self.outcome=int(self.samp['A Winner'])
+        self.score=int(self.samp['Home Score'])
+        if self.score<0:
+            self.odds=1/(np.random.random_sample()*0.35)
+        else:
+            if self.score==0:
+                self.odds=1/(np.random.random_sample()*0.75)
+            else:
+                self.odds=1/(np.random.random_sample()*0.5+0.5)
+        
         self.obs=self.samp.drop(['A Winner','match_id'])
         self.obs['Odds']=self.odds
         #del sa
